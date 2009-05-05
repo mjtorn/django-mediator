@@ -1,0 +1,24 @@
+Lapitor Mediator Application for Django
+=======================================
+
+Add 'mediator' to your INSTALLED_APPLICATIONS
+
+Define a view to receive SMSs;
+
+def sms(request):
+    """Example
+    """
+
+    from mediator.views import incoming_sms
+    import mediator.utils as mediator_utils
+
+    ctx = incoming_sms(request)
+
+    if ctx['sms'] is None:
+        # Handle error
+    else:
+        # Define your return sms text
+        ret = mediator_utils.create_return(return_text, **kwargs)
+
+        return HttpResponse(ret.tostring(doc, xml_declaration=True, encoding='utf-8', pretty_print=True)
+
