@@ -25,5 +25,19 @@ def create_return(content, numberto=None, numberfrom=None, operator=None, price=
 
     return root
 
+def create_error(content, err_type):
+    """Create error xml
+    """
+
+    err_types = ('user', 'system')
+    if not err_type in err_types:
+        raise TypeError('Unknown error type %s' % err_type)
+
+    root = etree.Element('error')
+    root.set('type', err_type)
+    root.text = content
+
+    return root
+
 # EOF
 
