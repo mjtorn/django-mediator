@@ -21,5 +21,17 @@ class Sms(models.Model):
     def __unicode__(self):
         return '%s -> %s: %s %s' % (self.numberfrom, self.numberto, self.command, self.argument)
 
+
+class DeliveryReceipt(models.Model):
+    """Delivery receipts
+    """
+
+    type = models.TextField()
+    status = models.IntegerField()
+    transactionid = models.IntegerField(db_index=True)
+
+    def __unicode__(self):
+        return '%s: %s: %s' % (self.transactionid, self.type, self.status)
+
 # EOF
 
