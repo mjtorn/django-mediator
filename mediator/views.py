@@ -11,6 +11,8 @@ def incoming_message(request):
     type_ = request.POST.get('type', 'sms')
     if type_ == 'mms':
         raise NotImplementedError('MMS not supported yet')
+    elif type_ == 'receipt':
+        return incoming_receipt(request)
 
     return incoming_sms(request)
 
@@ -25,6 +27,21 @@ def incoming_sms(request):
     context = {
         'sms_form': sms_form,
         'sms': sms,
+    }
+
+    return context
+
+def incoming_receipt(request):
+    data = request.POST.copy() or None
+    receipt_form = mediator_forms.DeliveryReceiptForm(data)
+
+    receipt = None
+    if receipt_form.is_bound and receipt_form.is_valid():
+        receipt = receipt_form.save()
+
+    context = {
+        'receipt_form': receipt_form,
+        'receipt': receipt,
     }
 
     return context

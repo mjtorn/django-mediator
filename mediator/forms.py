@@ -8,5 +8,9 @@ class SmsForm(forms.ModelForm):
     class Meta:
         model = mediator_models.Sms
 
+class DeliveryReceiptForm(forms.ModelForm):
+    class Meta:
+        model = mediator_models.DeliveryReceipt
+
 # EOF
 
