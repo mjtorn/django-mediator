@@ -16,7 +16,9 @@ class Sms(models.Model):
     sms = models.TextField()
 
     # But this is the real content
-    content = models.TextField()
+    @property
+    def content(self):
+        return '%s %s' % (self.command, self.argument)
 
     def __unicode__(self):
         return '%s -> %s: %s %s' % (self.numberfrom, self.numberto, self.command, self.argument)
