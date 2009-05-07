@@ -6,6 +6,8 @@ class Sms(models.Model):
     """Model conforming to Lapitor Mediator's incoming SMS
     """
 
+    created_at = models.DateTimeField(auto_now_add=True)
+
     # Don't be too strict with fields because we don't know what they are
     command = models.TextField()
     argument = models.TextField(null=True, blank=True)
@@ -27,6 +29,8 @@ class Sms(models.Model):
 class DeliveryReceipt(models.Model):
     """Delivery receipts
     """
+
+    created_at = models.DateTimeField(auto_now_add=True)
 
     type = models.TextField()
     status = models.IntegerField()
