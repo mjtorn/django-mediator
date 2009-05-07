@@ -8,7 +8,7 @@ class Sms(models.Model):
 
     # Don't be too strict with fields because we don't know what they are
     command = models.TextField()
-    argument = models.TextField()
+    argument = models.TextField(null=True, blank=True)
     numberfrom = models.TextField()
     numberto = models.TextField()
     operator = models.TextField()
