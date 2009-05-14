@@ -26,6 +26,21 @@ class Sms(models.Model):
         return '%s -> %s: %s %s' % (self.numberfrom, self.numberto, self.command, self.argument)
 
 
+class ReturnSms(models.Model):
+    """Model for return data
+    """
+
+    numberfrom = models.TextField(null=True, blank=True)
+    numberto = models.TextField(null=True, blank=True)
+    operator = models.TextField(null=True, blank=True)
+    price = models.TextField(null=True, blank=True)
+    delivery_req_url = models.TextField(null=True, blank=True)
+    content = models.TextField()
+    
+    def __unicode__(self):
+        return '%s -> %s: %s %s' % (self.numberfrom, self.numberto, self.command, self.argument)
+
+
 class DeliveryReceipt(models.Model):
     """Delivery receipts
     """
