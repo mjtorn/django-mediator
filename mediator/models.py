@@ -32,6 +32,8 @@ class ReturnSms(models.Model):
 
     sms = models.ForeignKey(Sms)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+
     numberfrom = models.TextField(null=True, blank=True)
     numberto = models.TextField(null=True, blank=True)
     operator = models.TextField(null=True, blank=True)
@@ -49,6 +51,8 @@ class ReturnError(models.Model):
 
     # In case we have a system error that the sms does't get logged or somethin
     sms = models.ForeignKey(Sms, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
 
     err_type = models.TextField()
     text = models.TextField()
