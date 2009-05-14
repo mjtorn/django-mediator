@@ -38,7 +38,7 @@ class ReturnSms(models.Model):
     content = models.TextField()
     
     def __unicode__(self):
-        return '%s -> %s: %s %s' % (self.numberfrom, self.numberto, self.command, self.argument)
+        return '%s -> %s: %s %s' % (self.numberfrom, self.numberto, self.content)
 
 
 class DeliveryReceipt(models.Model):
