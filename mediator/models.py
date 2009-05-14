@@ -30,6 +30,8 @@ class ReturnSms(models.Model):
     """Model for return data
     """
 
+    sms = models.ForeignKey(Sms)
+
     numberfrom = models.TextField(null=True, blank=True)
     numberto = models.TextField(null=True, blank=True)
     operator = models.TextField(null=True, blank=True)
