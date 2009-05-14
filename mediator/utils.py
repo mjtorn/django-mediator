@@ -4,9 +4,10 @@ from mediator import models
 
 from lxml import etree
 
-def create_return(content, numberto=None, numberfrom=None, operator=None, price=None, delivery_req_url=None):
+def create_return(content, sms, numberto=None, numberfrom=None, operator=None, price=None, delivery_req_url=None):
     root = etree.Element('sms')
     return_sms = models.ReturnSms()
+    return_sms.sms = sms
 
     if numberto:
         root.set('numberto', numberto)
@@ -37,9 +38,13 @@ def create_return(content, numberto=None, numberfrom=None, operator=None, price=
 
     return root
 
-def create_error(content, err_type):
+def create_error(content, sms, err_type):
     """Create error xml
+    sms can be None for now, if the sms didn't save somehow
     """
+
+    return_error = models.ReturnError()
+    return_error.sms = sms
 
     err_types = ('user', 'system')
     if not err_type in err_types:
@@ -48,6 +53,11 @@ def create_error(content, err_type):
     root = etree.Element('error')
     root.set('type', err_type)
     root.text = content
+
+    return_error.err_type = err_type
+    return_error.text = content
+
+    return_error.save()
 
     return root
 
