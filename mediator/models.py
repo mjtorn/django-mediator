@@ -41,6 +41,20 @@ class ReturnSms(models.Model):
         return '%s -> %s: %s %s' % (self.numberfrom, self.numberto, self.content)
 
 
+class ReturnError(models.Model):
+    """Model for error
+    """
+
+    # In case we have a system error that the sms does't get logged or somethin
+    sms = models.ForeignKey(Sms, null=True)
+
+    err_type = models.TextField()
+    text = models.TextField()
+
+    def __unicode__(self):
+        return '%s error: %s' % (self.err_type, self.text)
+
+
 class DeliveryReceipt(models.Model):
     """Delivery receipts
     """
