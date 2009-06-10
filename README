@@ -22,3 +22,24 @@ def sms(request):
 
         return HttpResponse(ret.tostring(doc, xml_declaration=True, encoding='utf-8', pretty_print=True)
 
+
+0.1.0
+-----
+
+SMS capability
+
+0.2.0
+-----
+
+MMS capability
+
+Database changes:
+ALTER TABLE mediator_sms ALTER COLUMN sms DROP NOT NULL;
+ALTER TABLE mediator_sms ADD COLUMN smildata TEXT;
+ALTER TABLE mediator_sms ADD COLUMN type CHARACTER VARYING(3);
+
+UPDATE mediator_sms SET type= 'sms';
+
+ALTER TABLE mediator_sms ALTER COLUMN type SET NOT NULL;
+
+
