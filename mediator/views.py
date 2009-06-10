@@ -18,6 +18,9 @@ def incoming_message(request):
 
 def incoming_sms(request):
     data = request.POST.copy() or None
+    if data is not None and not data.has_key('type'):
+        data['type'] = 'sms'
+
     sms_form = mediator_forms.SmsForm(data)
 
     sms = None
