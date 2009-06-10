@@ -9,12 +9,12 @@ def incoming_message(request):
     """
 
     type_ = request.POST.get('type', 'sms')
-    if type_ == 'mms':
-        raise NotImplementedError('MMS not supported yet')
+    if type_ == 'sms' or type_ == 'mms':
+        return incoming_sms(request)
     elif type_ == 'receipt':
         return incoming_receipt(request)
 
-    return incoming_sms(request)
+    raise NotImplementedError('Type %s not supported' % type_)
 
 def incoming_sms(request):
     data = request.POST.copy() or None
