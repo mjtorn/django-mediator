@@ -15,7 +15,14 @@ class Sms(models.Model):
     numberto = models.TextField()
     operator = models.TextField()
     transactionid = models.IntegerField(db_index=True)
-    sms = models.TextField()
+
+    # Determine what we are
+    # Unfortunately the namespace HAS to be collided here :(
+    type = models.CharField(max_length=3)
+
+    # There should be a constraint that only one of these can be null
+    sms = models.TextField(null=True, blank=True)
+    smildata = models.TextField(null=True, blank=True)
 
     # But this is the real content
     @property
