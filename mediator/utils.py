@@ -112,7 +112,7 @@ def parse_images(images):
         content_length = data.attrib['binlength'] or '0'
         content_length = int(content_length)
 
-        bin_data = base64.decodestring(data.text)
+        bin_data = base64.urlsafe_b64decode(data.text)
 
         img = StringIO(bin_data)
 
