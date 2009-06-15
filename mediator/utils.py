@@ -4,6 +4,11 @@ from mediator import models
 
 from lxml import etree
 
+# Can't use cStringIO for monkeypatch limitations
+from StringIO import StringIO
+
+import base64
+
 def create_return(content, sms, numberto=None, numberfrom=None, operator=None, price=None, delivery_req_url=None):
     root = etree.Element('sms')
     return_sms = models.ReturnSms()
@@ -60,6 +65,64 @@ def create_error(content, sms, err_type):
     return_error.save()
 
     return root
+
+def extract_media(content):
+    """Return all media from xml
+    content is raw-text xml
+    """
+
+    mms = etree.fromstring(content)
+
+    medias = mms.findall('media')
+
+    return medias or None
+
+def extract_images(content):
+    """Return a list of all media nodes whose mimetype looks like an image
+    """
+
+    medias = extract_media(content)
+
+    to_return = []
+    for media in medias:
+        if media.attrib.get('mimetype', '').startswith('image/'):
+            to_return.append(media)
+
+    return to_return or None
+
+def gen_default_filename(mime):
+    """Generate a file name for mime type
+    """
+
+    import time
+    mime_ext = mime.rsplit('/', 1)[1]
+    filename = '%s.%s' % (time.time(), mime_ext)
+
+def parse_images(images):
+    """Get a list of cStringIO files from images
+    """
+
+    to_return = []
+    for image in images:
+        mimetype = image.attrib['mimetype']
+        filename = image.attrib.get('filename', gen_default_filename(mimetype))
+
+        data = image.find('data')
+
+        content_length = data.attrib['binlength'] or '0'
+        content_length = int(content_length)
+
+        bin_data = base64.decodestring(data.text)
+
+        img = StringIO(bin_data)
+
+        img.mimetype = mimetype
+        img.filename = filename
+        img.content_length = content_length
+
+        to_return.append(img)
+
+    return to_return
 
 # EOF
 
